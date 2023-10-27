@@ -13,14 +13,16 @@ import androidx.compose.ui.unit.dp
 import com.example.snake.block
 
 @Composable
-fun Head(modifier: Modifier, background: Color = Color(0xFFCAA533), shape: Shape = RoundedCornerShape(5)) {
+fun Head(modifier: Modifier, background: Color = Color.Transparent, shape: Shape = RoundedCornerShape(5), c: @Composable ()->Unit) {
 
     Box(
         modifier = modifier
             .clip(shape = shape)
             .background(color = background)
             .size(block.dp)
-    )
+    ) {
+        c()
+    }
 
 
 }

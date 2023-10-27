@@ -16,6 +16,5 @@ fun ItemForMap() {
         modifier = Modifier
             .size(block.dp)
             .background(Color.Gray)
-            .border(1.dp, Color.Black)
     )
 }

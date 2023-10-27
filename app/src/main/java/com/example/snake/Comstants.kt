@@ -3,14 +3,14 @@ package com.example.snake
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.unit.dp
 
-//todo сделать на координатах
-//var x = mutableStateOf(0)
-//var y = mutableStateOf(0)
+// todo сделать на координатах
+// var x = mutableStateOf(0)
+// var y = mutableStateOf(0)
 
 const val defaultPosition = 0
-const val block = 40
-const val verticalBlock = 9
-const val horizontalBlock = 9
+const val block = 10
+const val verticalBlock = 36
+const val horizontalBlock = 36
 
 
 val tail = mutableListOf<SnakeSegment>()

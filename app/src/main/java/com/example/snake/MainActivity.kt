@@ -7,16 +7,14 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.snake.map.Map
 import com.example.snake.mySnake.Head
@@ -42,7 +40,9 @@ class MainActivity : ComponentActivity() {
                                         start = (tail.horizontal).dp,
                                     ),
                                     background = Color.Blue
-                                )
+                                ) {
+
+                                }
                             }
                         }
                         Head(
@@ -50,7 +50,9 @@ class MainActivity : ComponentActivity() {
                                     top = verticalPosition.value.dp,
                                     start = horizontalPosition.value.dp,
                                 )
-                        )
+                                ,
+                            background = Color.Yellow
+                        ){}
                         if (apples.isNotEmpty()) {
                             apples.forEach { apple ->
                                 Head(
@@ -58,9 +60,16 @@ class MainActivity : ComponentActivity() {
                                         top = apple.vertical.dp,
                                         start = apple.horizontal.dp,
                                     ),
-                                    background = Color.Red,
                                     shape = CircleShape
-                                )
+                                ) {
+                                    Icon(
+                                    painter = painterResource(id = R.drawable.apple),
+                                    contentDescription = "яблоко",
+                                    tint = Color.Red,
+                                    modifier = Modifier
+                                        .size(block.dp)
+                                    )
+                                }
                             }
                         }
                     }
@@ -82,10 +91,10 @@ class MainActivity : ComponentActivity() {
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         when (keyCode) {
-            KeyEvent.KEYCODE_W -> currentDirection.value = Direction.UP
-            KeyEvent.KEYCODE_A -> currentDirection.value = Direction.LEFT
-            KeyEvent.KEYCODE_S -> currentDirection.value = Direction.DOWN
-            KeyEvent.KEYCODE_D -> currentDirection.value = Direction.RIGHT
+            KeyEvent.KEYCODE_W -> if (currentDirection.value != Direction.DOWN) currentDirection.value = Direction.UP
+            KeyEvent.KEYCODE_A -> if (currentDirection.value != Direction.RIGHT) currentDirection.value = Direction.LEFT
+            KeyEvent.KEYCODE_S -> if (currentDirection.value != Direction.UP) currentDirection.value = Direction.DOWN
+            KeyEvent.KEYCODE_D -> if (currentDirection.value != Direction.LEFT) currentDirection.value = Direction.RIGHT
         }
         return super.onKeyDown(keyCode, event)
     }
@@ -99,9 +108,22 @@ class MainActivity : ComponentActivity() {
 // СТОЛКНОВЕНИЕ - когда [SnakeSegment] из списков равны
 
 fun generateApple() {
-    val randomX = (0 until horizontalBlock).random() * block
-    val randomY = (0 until verticalBlock).random() * block
+    var randomX = (0 until horizontalBlock).random() * block
+    var randomY = (0 until verticalBlock).random() * block
+    while (tail.contains(SnakeSegment(randomX, randomY))) {
+        randomX = (0 until horizontalBlock).random() * block
+        randomY = (0 until verticalBlock).random() * block
+    }
     apples.add(SnakeSegment(randomX, randomY))
+}
+
+fun dtp() {
+    if (tail.contains(SnakeSegment(horizontalPosition.value, verticalPosition.value))) {
+
+        Log.e("snake", "Tail detected!")
+        tail.clear()
+        snakeLength = 0
+    }
 }
 
 fun checkCollisionWithApple() {
@@ -115,7 +137,11 @@ fun checkCollisionWithApple() {
 
         apples.remove(eatenApple) // Удаляем съеденное яблоко из списка яблок
 
-        generateApple() // Генерируем новое яблоко
+        if (apples.isEmpty()) {
+            repeat(tail.size) {
+                generateApple() // Генерируем новое яблоко
+            }
+        }
     }
 }
 
@@ -123,6 +149,7 @@ fun checkCollisionWithApple() {
 
 fun moveSnake() {
 
+    dtp()
     tail.add(SnakeSegment(horizontalPosition.value, verticalPosition.value))
 
     if (tail.size > snakeLength) {
@@ -138,7 +165,8 @@ fun moveSnake() {
         Direction.RIGHT -> horizontalPosition.value += block
     }
 
-    Log.e("snake", "x=${horizontalPosition.value}y=${verticalPosition.value}")
+    //Log.e("snake", "x=${horizontalPosition.value}y=${verticalPosition.value}")
+    //Log.e("snake", "${tail}")
 }
 
 enum class Direction {
