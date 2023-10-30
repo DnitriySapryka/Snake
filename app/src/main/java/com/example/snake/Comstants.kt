@@ -8,9 +8,9 @@ import androidx.compose.ui.unit.dp
 // var y = mutableStateOf(0)
 
 const val defaultPosition = 0
-const val block = 10
-const val verticalBlock = 36
-const val horizontalBlock = 36
+const val block = 20
+const val verticalBlock = 18
+const val horizontalBlock = 18
 
 
 val tail = mutableListOf<SnakeSegment>()

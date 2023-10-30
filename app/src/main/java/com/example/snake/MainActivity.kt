@@ -5,15 +5,16 @@ import android.util.Log
 import android.view.KeyEvent
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.snake.map.Map
@@ -38,21 +39,37 @@ class MainActivity : ComponentActivity() {
                                     modifier = Modifier.padding(
                                         top = (tail.vertical).dp,
                                         start = (tail.horizontal).dp,
-                                    ),
-                                    background = Color.Blue
+                                    )
                                 ) {
-
+                                    Image(painter = painterResource(id = R.drawable.tail), contentDescription = "head")
                                 }
                             }
                         }
                         Head(
-                            modifier = Modifier.padding(
+                            modifier = Modifier
+                                .padding(
                                     top = verticalPosition.value.dp,
                                     start = horizontalPosition.value.dp,
                                 )
-                                ,
-                            background = Color.Yellow
-                        ){}
+                                .rotate(
+                                    when (currentDirection.value) {
+                                        Direction.DOWN -> 90f
+                                        Direction.UP -> 270f
+                                        //                                        currentDirection.value == Direction.LEFT -> 180f
+                                        else -> {0f}
+                                    }
+                                )
+                                .scale(
+                                    scaleX = when (currentDirection.value) {
+                                        Direction.LEFT -> (-1f)
+                                        else -> 1f
+                                    },
+                                    scaleY = 1f
+                                )
+
+                        ){
+                            Image(painter = painterResource(id = R.drawable.head), contentDescription = "head")
+                        }
                         if (apples.isNotEmpty()) {
                             apples.forEach { apple ->
                                 Head(
@@ -62,10 +79,9 @@ class MainActivity : ComponentActivity() {
                                     ),
                                     shape = CircleShape
                                 ) {
-                                    Icon(
-                                    painter = painterResource(id = R.drawable.apple),
+                                    Image(
+                                    painter = painterResource(id = R.drawable.disk_svgrepo_com),
                                     contentDescription = "яблоко",
-                                    tint = Color.Red,
                                     modifier = Modifier
                                         .size(block.dp)
                                     )

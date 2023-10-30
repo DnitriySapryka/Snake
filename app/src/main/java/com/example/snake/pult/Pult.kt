@@ -36,23 +36,23 @@ fun Pult() {
         horizontalArrangement = Arrangement.Center
     ) {
         ButtonItem(
-            onClick = { currentDirection.value = Direction.LEFT},
+            onClick = { if (currentDirection.value != Direction.RIGHT) {currentDirection.value = Direction.LEFT }},
             icon = Icons.Default.KeyboardArrowLeft)
 
         Column {
             ButtonItem(
-                onClick = { currentDirection.value = Direction.UP },
+                onClick = { if (currentDirection.value != Direction.DOWN) {currentDirection.value = Direction.UP}},
                 icon = Icons.Default.KeyboardArrowUp)
 
             Box(modifier = Modifier.height(80.dp))
 
             ButtonItem(
-                onClick = { currentDirection.value = Direction.DOWN },
+                onClick = { if (currentDirection.value != Direction.UP) {currentDirection.value = Direction.DOWN }},
                 icon = Icons.Default.KeyboardArrowDown)
         }
 
         ButtonItem(
-            onClick = { currentDirection.value = Direction.RIGHT },
+            onClick = { if (currentDirection.value != Direction.LEFT) {currentDirection.value = Direction.RIGHT }},
             icon = Icons.Default.KeyboardArrowRight)
     }
 }
