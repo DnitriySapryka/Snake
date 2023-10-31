@@ -60,7 +60,6 @@ fun MapScreen() {
         }
         Box(
             modifier = Modifier
-                .wrapContentSize()
                 .background(Color.Blue),
         ) {
             Map()
@@ -105,9 +104,9 @@ fun MapScreen() {
                         }, scaleY = 1f
                     )
             ) {
-                Image(painter = painterResource(id = R.drawable.head), contentDescription = "head")
+                Image(painter = painterResource(id = R.drawable.venom), contentDescription = "head",
+                    modifier = Modifier.rotate(270f))
             }
-
             //apple
             if (apples.isNotEmpty()) {
                 apples.forEach { apple ->

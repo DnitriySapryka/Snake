@@ -17,7 +17,6 @@ import com.example.snake.verticalBlock
 fun Map() {
     Box(
         modifier = Modifier
-            .fillMaxWidth()
             .background(color = Color(0xFFC2780B)),
         contentAlignment = Alignment.Center
     ) {

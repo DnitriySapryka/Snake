@@ -31,8 +31,8 @@ class MainActivity : ComponentActivity() {
 
         setContent {
 
-//            val navController = rememberNavController()
-//
+            val navController = rememberNavController()
+
 //            NavHost(
 //                navController = navController,
 //                startDestination = "startScreenFragment"
