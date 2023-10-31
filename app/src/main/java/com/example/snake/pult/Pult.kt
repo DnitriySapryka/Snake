@@ -1,5 +1,6 @@
 package com.example.snake.pult
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,59 +16,44 @@ import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.snake.Direction
-import com.example.snake.block
 import com.example.snake.currentDirection
-import com.example.snake.defaultPosition
-import com.example.snake.horizontalBlock
-import com.example.snake.horizontalPosition
-import com.example.snake.verticalBlock
-import com.example.snake.verticalPosition
+import com.example.snake.data.Direction
 
 @Composable
 fun Pult() {
-    Row(
-        modifier = Modifier
-            .padding(top = 40.dp)
-            .height(240.dp)
-            .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
+    Box(
+        modifier = Modifier.background(color = Color(0xFFC2780B))
     ) {
-        ButtonItem(
-            onClick = { if (currentDirection.value != Direction.RIGHT) {currentDirection.value = Direction.LEFT }},
-            icon = Icons.Default.KeyboardArrowLeft)
-
-        Column {
+        Row(
+            modifier = Modifier
+                .padding(vertical = 40.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
             ButtonItem(
-                onClick = { if (currentDirection.value != Direction.DOWN) {currentDirection.value = Direction.UP}},
-                icon = Icons.Default.KeyboardArrowUp)
+                onClick = { if (currentDirection.value != Direction.RIGHT) {currentDirection.value = Direction.LEFT }},
+                icon = Icons.Default.KeyboardArrowLeft)
 
-            Box(modifier = Modifier.height(80.dp))
+            Column {
+                ButtonItem(
+                    onClick = { if (currentDirection.value != Direction.DOWN) {currentDirection.value = Direction.UP}},
+                    icon = Icons.Default.KeyboardArrowUp)
+
+                Box(modifier = Modifier.height(80.dp))
+
+                ButtonItem(
+                    onClick = { if (currentDirection.value != Direction.UP) {currentDirection.value = Direction.DOWN }},
+                    icon = Icons.Default.KeyboardArrowDown)
+            }
 
             ButtonItem(
-                onClick = { if (currentDirection.value != Direction.UP) {currentDirection.value = Direction.DOWN }},
-                icon = Icons.Default.KeyboardArrowDown)
+                onClick = { if (currentDirection.value != Direction.LEFT) {currentDirection.value = Direction.RIGHT }},
+                icon = Icons.Default.KeyboardArrowRight)
         }
-
-        ButtonItem(
-            onClick = { if (currentDirection.value != Direction.LEFT) {currentDirection.value = Direction.RIGHT }},
-            icon = Icons.Default.KeyboardArrowRight)
     }
-}
 
-fun verticalControl() {
-    when {
-        verticalPosition.value < defaultPosition  -> verticalPosition.value = (verticalBlock - 1) * block
-        verticalPosition.value > (verticalBlock - 1) * block -> verticalPosition.value = defaultPosition
-    }
-}
-
-fun horizontalControl() {
-    when {
-        horizontalPosition.value < defaultPosition  -> horizontalPosition.value = (horizontalBlock - 1) * block
-        horizontalPosition.value > (horizontalBlock - 1) * block -> horizontalPosition.value = defaultPosition
-    }
 }
 

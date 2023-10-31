@@ -1,4 +1,4 @@
-package com.example.snake.mySnake
+package com.example.snake.map.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.example.snake.block
 
 @Composable
-fun Head(modifier: Modifier, background: Color = Color.Transparent, shape: Shape = RoundedCornerShape(5), c: @Composable ()->Unit) {
+fun PartBody(modifier: Modifier, background: Color = Color.Transparent, shape: Shape = RoundedCornerShape(5), c: @Composable ()->Unit) {
 
     Box(
         modifier = modifier
