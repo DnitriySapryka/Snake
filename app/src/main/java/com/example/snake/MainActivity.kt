@@ -8,8 +8,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.snake.data.Direction
+import com.example.snake.domain.RecordManager
 
 class MainActivity : ComponentActivity() {
+    private val recordManager by lazy { RecordManager(this) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -22,7 +24,10 @@ class MainActivity : ComponentActivity() {
                     StartScreen(navController)
                 }
                 composable("gameScreen") {
-                    GameFragment(navController)
+                    GameFragment(navController, recordManager)
+                }
+                composable("recordsScreen") {
+                    RecordsScreen(recordManager, navController)
                 }
             }
         }

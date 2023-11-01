@@ -24,6 +24,7 @@ import com.example.snake.score
 import com.example.snake.showDialogDead
 import com.example.snake.tail
 import com.example.snake.DeathDialog
+import com.example.snake.domain.RecordManager
 import com.example.snake.map.components.Apples
 import com.example.snake.map.components.Body
 import com.example.snake.map.components.Head
@@ -32,13 +33,13 @@ import com.example.snake.showDialogWin
 import com.example.snake.verticalPosition
 
 @Composable
-fun MapScreen(navController: NavController) {
+fun MapScreen(navController: NavController, recordManager: RecordManager) {
 
     if (showDialogDead.value){
-        DeathDialog("Ты проиграл (", navController)
+        DeathDialog("Ты проиграл (", navController, recordManager)
     }
     if (showDialogWin.value){
-        DeathDialog("Ты победил!", navController)
+        DeathDialog("Ты победил!", navController, recordManager)
     }
 
     Column(
@@ -55,6 +56,8 @@ fun MapScreen(navController: NavController) {
             Text(text = "Score: ${score.value}")
             Text(text = "Record: ${record.value}")
         }
+
+
         Box(
             modifier = Modifier
                 .background(Color.Blue),

@@ -1,19 +1,35 @@
-package com.example.snake
+package com.example.snake.domain
 
 import androidx.lifecycle.ViewModel
+import com.example.snake.apples
+import com.example.snake.applesCount
+import com.example.snake.block
+import com.example.snake.currentDirection
 import com.example.snake.data.Direction
 import com.example.snake.data.SnakeSegment
+import com.example.snake.defaultPosition
+import com.example.snake.horizontalBlock
+import com.example.snake.horizontalPosition
+import com.example.snake.record
+import com.example.snake.score
+import com.example.snake.showDialogDead
+import com.example.snake.showDialogWin
+import com.example.snake.snakeSpeed
+import com.example.snake.tail
+import com.example.snake.verticalBlock
+import com.example.snake.verticalPosition
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class SnakeViewModel:ViewModel() {
+class SnakeViewModel(private val recordManager: RecordManager): ViewModel() {
     private var snakeJob: Job? = null // Переменная для хранения корутины
 
     fun playNow() {
         if (snakeJob?.isActive != true) { // Проверка, что корутина не активна
+            record.value = recordManager.getRecords().maxOrNull() ?:0
             horizontalPosition.value = 0
             verticalPosition.value = 0
             currentDirection.value = Direction.RIGHT
@@ -46,6 +62,7 @@ class SnakeViewModel:ViewModel() {
         }
         else {
             applesCount.value = tail.size
+            recordManager.saveRecord(score.value)
             snakeSpeed.value = 600
             showDialogWin.value = true
             snakeJob?.cancel()
@@ -55,7 +72,7 @@ class SnakeViewModel:ViewModel() {
     fun dtp(): Boolean {
         if (tail.contains(SnakeSegment(horizontalPosition.value, verticalPosition.value))) {
             applesCount.value = tail.size
-//            tail.clear()
+            recordManager.saveRecord(score.value)
             if (score.value > record.value) { record.value = score.value}
             snakeSpeed.value = 600
             showDialogDead.value = true

@@ -7,10 +7,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
+import com.example.snake.domain.RecordManager
+import com.example.snake.domain.SnakeViewModel
 
 @Composable
-fun DeathDialog(status: String, navController: NavController) {
-    val snakeViewModel = SnakeViewModel()
+fun DeathDialog(status: String, navController: NavController,  recordManager: RecordManager) {
+    val snakeViewModel = SnakeViewModel(recordManager)
     AlertDialog(
 
         onDismissRequest = {
