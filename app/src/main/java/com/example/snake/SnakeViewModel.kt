@@ -45,9 +45,10 @@ class SnakeViewModel:ViewModel() {
 
     fun dtp(): Boolean {
         if (tail.contains(SnakeSegment(horizontalPosition.value, verticalPosition.value))) {
+            applesCount.value = tail.size
             tail.clear()
             if (score.value > record.value) { record.value = score.value}
-            snakeSpeed.value = 1000
+            snakeSpeed.value = 800
             showDialog.value = true
             return true // Возвращаем true, чтобы указать о столкновении
         }
@@ -58,15 +59,15 @@ class SnakeViewModel:ViewModel() {
         val headPosition = SnakeSegment(horizontalPosition.value, verticalPosition.value)
         val eatenApple = apples.find { it == headPosition }
         if (eatenApple != null) {
-            if (snakeSpeed.value > 100) {
+            if (snakeSpeed.value > 200) {
                 if (snakeSpeed.value < 500) {
                     if (snakeSpeed.value < 200) {
                         snakeSpeed.value -= 5
                     } else {
-                        snakeSpeed.value -= 50
+                        snakeSpeed.value -= 5
                     }
                 } else {
-                    snakeSpeed.value -= 100
+                    snakeSpeed.value -= 5
                 }
             }
             score.value += 10 * tail.size

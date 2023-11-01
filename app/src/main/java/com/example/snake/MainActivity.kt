@@ -22,56 +22,25 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
-    private val snakeViewModel = SnakeViewModel()
-    private var snakeJob: Job? = null // Переменная для хранения корутины
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        snakeViewModel.generateApple()
-
         setContent {
 
             val navController = rememberNavController()
 
-//            NavHost(
-//                navController = navController,
-//                startDestination = "startScreenFragment"
-//            ) {
-//                composable("startScreenFragment") {
-//                    StartScreen(navController)
-//                }
-//                composable("gameFragment") {
-//                    GameFragment()
-//                }
-//            }
-
-            SnakeTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
-                ) {
-                    MapScreen ()
-
-                    val startCoroutine = {
-                        snakeJob = CoroutineScope(Dispatchers.Default).launch {
-                            while (true) {
-                                delay(snakeSpeed.value)
-                                snakeViewModel.moveSnake()
-                                snakeViewModel.verticalControl()
-                                snakeViewModel.horizontalControl()
-
-                                // Проверка на столкновение и остановка корутины
-                                if (snakeViewModel.dtp()) {
-                                    snakeJob?.cancel() // Остановка корутины при столкновении
-                                }
-                            }
-                        }
-                    }
-
-                    LaunchedEffect(key1 = Unit) {
-                        startCoroutine()
-                    }
+            NavHost(
+                navController = navController,
+                startDestination = "startScreen"
+            ) {
+                composable("startScreen") {
+                    StartScreen(navController)
+                }
+                composable("gameScreen") {
+                    GameFragment(navController)
                 }
             }
+
         }
     }
 

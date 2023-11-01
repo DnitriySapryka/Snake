@@ -10,17 +10,18 @@ import kotlinx.coroutines.Job
 // var x = mutableStateOf(0)
 // var y = mutableStateOf(0)
 
+var isClicked = mutableStateOf(false)
+
 var showDialog = mutableStateOf(false)
 
-var snakeJob: Job? = null
-
 const val defaultPosition = 0
-var block = 40
+var block = 38
 var verticalBlock = 12
 var horizontalBlock = 10
 var record = mutableStateOf(0)
 
 val tail = mutableListOf<SnakeSegment>()
+val applesCount = mutableStateOf(0)
 val apples = mutableListOf<SnakeSegment>()
 
 val horizontalPosition = mutableStateOf(0)

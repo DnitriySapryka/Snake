@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,6 +21,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.snake.R
 import com.example.snake.data.SnakeSegment
 import com.example.snake.apples
@@ -38,12 +40,11 @@ import com.example.snake.record
 import com.example.snake.verticalPosition
 
 @Composable
-fun MapScreen() {
+fun MapScreen(navController: NavController) {
 
     if (showDialog.value){
-        DeathDialog()
+        DeathDialog(navController)
     }
-
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -71,7 +72,9 @@ fun MapScreen() {
                         modifier = Modifier.padding(
                             top = (tail.vertical).dp,
                             start = (tail.horizontal).dp,
-                        )
+                        ),
+                        shape = RoundedCornerShape(10.dp),
+                        background = Color.Green
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.tail),
@@ -102,7 +105,9 @@ fun MapScreen() {
                             Direction.LEFT -> (-1f)
                             else -> 1f
                         }, scaleY = 1f
-                    )
+                    ),
+                shape = RoundedCornerShape(10.dp),
+                background = Color.Green
             ) {
                 Image(painter = painterResource(id = R.drawable.venom), contentDescription = "head",
                     modifier = Modifier.rotate(270f))
