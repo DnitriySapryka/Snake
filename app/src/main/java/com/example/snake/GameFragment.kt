@@ -12,5 +12,5 @@ fun GameFragment(navController: NavController) {
         snakeViewModel.generateApple()
         snakeViewModel.playNow()
     }
-    MapScreen (navController)
+        MapScreen(navController)
 }

@@ -9,15 +9,16 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 
 @Composable
-fun DeathDialog(navController: NavController) {
+fun DeathDialog(status: String, navController: NavController) {
     val snakeViewModel = SnakeViewModel()
     AlertDialog(
 
         onDismissRequest = {
-            showDialog.value = false
+            showDialogDead.value = false
+            showDialogWin.value = false
                            },
 
-        title = {Text("Ты проиграл")},
+        title = {Text(status)},
 
         text = {
             Text("Score: ${score.value}"
@@ -28,7 +29,10 @@ fun DeathDialog(navController: NavController) {
         confirmButton = {
             Button(
                 onClick = {
-                    showDialog.value = false
+                    showDialogDead.value = false
+                    showDialogWin.value = false
+                    tail.clear()
+                    if (apples.isEmpty()) {snakeViewModel.generateApple()}
                     snakeViewModel.playNow()
                 }, modifier = Modifier.fillMaxWidth()
             ) {
@@ -39,7 +43,9 @@ fun DeathDialog(navController: NavController) {
         dismissButton = {
             Button(
                 onClick = {
-                    showDialog.value = false
+                    showDialogDead.value = false
+                    showDialogWin.value = false
+                    tail.clear()
                     apples.clear()
                     navController.navigate("startScreen")},
                 modifier = Modifier.fillMaxWidth()

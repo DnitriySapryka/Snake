@@ -33,23 +33,32 @@ class SnakeViewModel:ViewModel() {
             }
         }
     }
+
     fun generateApple() {
-        var randomX = (0 until horizontalBlock).random() * block
-        var randomY = (0 until verticalBlock).random() * block
-        while (tail.contains(SnakeSegment(randomX, randomY))) {
-            randomX = (0 until horizontalBlock).random() * block
-            randomY = (0 until verticalBlock).random() * block
+        if (tail.size != horizontalBlock * verticalBlock - 1) {
+            var randomX = (0 until horizontalBlock).random() * block
+            var randomY = (0 until verticalBlock).random() * block
+            while (tail.contains(SnakeSegment(randomX, randomY))) {
+                randomX = (0 until horizontalBlock).random() * block
+                randomY = (0 until verticalBlock).random() * block
+            }
+            apples.add(SnakeSegment(randomX, randomY))
         }
-        apples.add(SnakeSegment(randomX, randomY))
+        else {
+            applesCount.value = tail.size
+            snakeSpeed.value = 600
+            showDialogWin.value = true
+            snakeJob?.cancel()
+        }
     }
 
     fun dtp(): Boolean {
         if (tail.contains(SnakeSegment(horizontalPosition.value, verticalPosition.value))) {
             applesCount.value = tail.size
-            tail.clear()
+//            tail.clear()
             if (score.value > record.value) { record.value = score.value}
-            snakeSpeed.value = 800
-            showDialog.value = true
+            snakeSpeed.value = 600
+            showDialogDead.value = true
             return true // Возвращаем true, чтобы указать о столкновении
         }
         return false // Возвращаем false, если столкновение не произошло
@@ -60,16 +69,13 @@ class SnakeViewModel:ViewModel() {
         val eatenApple = apples.find { it == headPosition }
         if (eatenApple != null) {
             if (snakeSpeed.value > 200) {
-                if (snakeSpeed.value < 500) {
-                    if (snakeSpeed.value < 200) {
-                        snakeSpeed.value -= 5
-                    } else {
-                        snakeSpeed.value -= 5
-                    }
-                } else {
+                if (snakeSpeed.value < 400) {
                     snakeSpeed.value -= 5
+                } else {
+                    snakeSpeed.value -= 10
                 }
             }
+            else snakeSpeed.value = 200
             score.value += 10 * tail.size
             apples.remove(eatenApple)
             if (apples.isEmpty()) {
@@ -93,7 +99,6 @@ class SnakeViewModel:ViewModel() {
             horizontalPosition.value > (horizontalBlock - 1) * block -> horizontalPosition.value = defaultPosition
         }
     }
-
 
     fun moveSnake() {
         dtp()

@@ -1,10 +1,8 @@
 package com.example.snake
 
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import com.example.snake.data.Direction
 import com.example.snake.data.SnakeSegment
-import kotlinx.coroutines.Job
 
 // todo сделать на координатах
 // var x = mutableStateOf(0)
@@ -12,7 +10,8 @@ import kotlinx.coroutines.Job
 
 var isClicked = mutableStateOf(false)
 
-var showDialog = mutableStateOf(false)
+var showDialogDead = mutableStateOf(false)
+var showDialogWin = mutableStateOf(false)
 
 const val defaultPosition = 0
 var block = 38
@@ -28,6 +27,6 @@ val horizontalPosition = mutableStateOf(0)
 val verticalPosition = mutableStateOf(0)
 
 val score = mutableStateOf(0)
-var snakeSpeed = mutableStateOf(1000L)
+var snakeSpeed = mutableStateOf(600L)
 
 val currentDirection = mutableStateOf(Direction.RIGHT)
